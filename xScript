@@ -16,7 +16,7 @@ print("[0/2] Loading Extensions")
 
 for i,v in pairs(getgenv().xScript.Extensions) do
     if v == "test" then
-        xScript.test = loadstring("https://raw.githubusercontent.com/DxnizA/xScript/main/"..v)  
+        xScript.test = loadstring("https://raw.githubusercontent.com/DenizAf4can/xScript/main/"..v)  
         print("Loaded "..v,xScript.test.Author)
     end
 end
