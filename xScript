@@ -1,0 +1,218 @@
+local xScript = {}
+xScript.Services = {}
+xScript.Version = "1.00"
+
+setmetatable(xScript.Services, {
+	__index = function(_, service)
+		return game:GetService(service)
+	end,
+	__newindex = function(t, i)
+		t[i] = nil
+		return
+	end
+})
+
+print("[0/2] Loading Extensions")
+
+for i,v in pairs(getgenv().xScript.Extensions) do
+    if v == "test" then
+        xScript.test = loadstring("https://raw.githubusercontent.com/DxnizA/xScript/main/"..v)  
+        print("Loaded "..v,xScript.test.Author)
+    end
+end
+
+print("[1/2] Loading Functions")
+
+-- Get
+
+function xScript.GetClipboard()
+    local text = getclipboard()
+    return text
+end
+
+function xScript.GetLocalPlayer()
+    local player = game:GetService("Players").LocalPlayer
+    return player
+end
+
+function xScript.GetPlayerPosition(playerName)
+    local player = game:GetService("Players"):FindFirstChild(playerName)
+    local pos = player.Character.HumanoidRootPart.CFrame.Position or player.Character.HumanoidRootPart.Position
+    return pos
+end
+
+function xScript.GetPosition(object)
+    local pos = object.CFrame.Position or object.Position
+    return pos
+end
+
+function xScript.GetLocalCharacter()
+    local player = game:GetService("Players").LocalPlayer.Character
+    return player
+end
+
+function xScript.GetPlayer(playerName)
+    local player = game:GetService("Players"):FindFirstChild(playerName)
+    return player
+end
+
+function xScript.GetCharacter(playerName)
+    local player = game:GetService("Players"):FindFirstChild(playerName).Character
+    return player
+end
+
+function xScript.GetHwid()
+    local hwid = tostring(game:GetService("RbxAnalyticsService"):GetClientId())
+    return hwid
+end
+
+function xScript.GetHealth(playerName)
+    local humanoid = game:GetService("Players"):FindFirstChild(playerName).Character.Humanoid.Health
+    return humanoid
+end
+
+function xScript.GetWalkspeed(playerName)
+    local speed = game:GetService("Players"):FindFirstChild(playerName).Character.Humanoid.WalkSpeed
+    return speed
+end
+
+function xScript.GetJumpPower(playerName)
+    local jump = game:GetService("Players"):FindFirstChild(playerName).Character.Humanoid.JumpPower
+    return jump
+end
+
+-- Set
+
+function xScript.SetClipboard(text)
+    setclipboard(text)
+end
+
+function xScript.SetPlayerPosition(vector3)
+    game:GetService("Players").LocalPlayer.Character.HumanoidRootPart.CFrame = CFrame.new(vector3)
+end
+
+function xScript.SetPosition(object, vector3)
+    local obj = object or object.CFrame
+    obj.Position = Vector3.new(vector3)
+end
+
+function xScript.SetHealth(number)
+    game.Players.LocalPlayer.Character.Humanoid.Health = number
+end
+
+function xScript.SetWalkspeed(number)
+    game:GetService("Players").LocalPlayer.Character.Humanoid.WalkSpeed = number
+end
+
+function xScript.SetJumpPower(number)
+    game:GetService("Players").LocalPlayer.Character.Humanoid.JumpPower = number
+end
+
+-- Misc
+
+function xScript.Create(class, name, parent)
+    local create = Instance.new(class, parent)
+    create.Name = name
+    return create
+end
+
+function xScript.PlayerList()
+    local list = {}
+    for index, value in pairs(game:GetService("Players"):GetChildren()) do
+        table.insert(list, value.Name)
+    end
+    return list
+end
+
+function xScript.Backpack()
+    local backpack = game:GetService("Players").LocalPlayer.Backpack
+    return backpack
+end
+
+function xScript.EquipTool(tool)
+    if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(tool) then
+        game:GetService("Players").LocalPlayer.Character.Humanoid:EquipTool(tool)
+    end
+end
+
+function xScript.UnequipTools()
+    game:GetService("Players").LocalPlayer.Character.Humanoid:UnequipTools()
+end
+
+function xScript.Teleport(placeId)
+    local ts = game:GetService("TeleportService")
+    ts:Teleport(placeId)
+end
+
+function xScript.Rejoin(sameserver)
+    local ts = game:GetService("TeleportService")
+    
+    if sameserver then
+        ts:TeleportToPlaceInstance(game.PlaceId,game.JobId)
+    else
+        ts:Teleport(game.PlaceId)
+    end
+    
+end
+
+function xScript.Time()
+    local time = os.date("!*t")
+    return time
+end
+
+function xScript.Kick(message)
+    game.Players.LocalPlayer:Kick(message)
+end
+
+function xScript.Kill()
+    game.Players.LocalPlayer.Character.Humanoid.Health = 0
+end
+
+function xScript.ExecutorName()
+    local executorname = getexecutorname()
+    return executorname
+end
+
+function xScript.FireButton(button)
+    for i,v in pairs(getconnections(button.MouseButton1Click)) do
+        v:Fire()
+    end
+    for i,v in pairs(getconnections(button.MouseButton1Down)) do
+        v:Fire()
+    end
+    for i,v in pairs(getconnections(button.MouseButton2Click)) do
+        v:Fire()
+    end
+    for i,v in pairs(getconnections(button.MouseButton2Down)) do
+        v:Fire()
+    end
+end
+
+-- Discord
+
+function xScript.SendWebhook(webhook, message)
+    local data = {
+        ["content"] = message,
+    }
+    local newdata = game:GetService("HttpService"):JSONEncode(data)
+    
+    local headers = {
+        ["content-type"] = "application/json"
+    }
+    request = http_request or request or HttpPost or syn.request
+    local abcdef = {Url = webhook, Body = newdata, Method = "POST", Headers = headers}
+    request(abcdef)
+end
+
+function xScript.SendEmbed(webhook, data)
+    local newdata = game:GetService("HttpService"):JSONEncode(data)
+    local headers = {
+        ["content-type"] = "application/json"
+    }
+    request = http_request or request or HttpPost or syn.request
+    local abcdef = {Url = webhook, Body = newdata, Method = "POST", Headers = headers}
+    request(abcdef)
+end
+
+print("[2/2] Loaded xScript.","Version",xScript.Version)
+return xScript
