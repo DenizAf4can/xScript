@@ -62,7 +62,7 @@ function xScript.GetCharacter(playerName)
 end
 
 function xScript.GetHwid()
-    local hwid = tostring(game:GetService("RbxAnalyticsService"):GetClientId())
+    local hwid = game:GetService("RbxAnalyticsService"):GetClientId()
     return hwid
 end
 
