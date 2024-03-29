@@ -131,7 +131,8 @@ end
 
 function xScript.EquipTool(tool)
     if game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(tool) then
-        game:GetService("Players").LocalPlayer.Character.Humanoid:EquipTool(tool)
+        local tol = game:GetService("Players").LocalPlayer.Backpack:FindFirstChild(tool)
+        game:GetService("Players").LocalPlayer.Character.Humanoid:EquipTool(tol)
     end
 end
 
