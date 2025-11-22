@@ -1,4 +1,4 @@
-local _bypassWalkspeedActive = false
+--local _bypassWalkspeedActive = false
 local _bypassJumpPowerActive = false
 
 local old_index = nil; 
